@@ -5,6 +5,8 @@ import com.valleyrealm.valleycert.storage.CertificateStorage;
 import com.valleyrealm.valleycert.validation.CertificateValidator;
 import com.valleyrealm.valleycert.renewal.CertificateRenewer;
 
+import org.bukkit.Bukkit;
+
 import java.nio.file.Path;
 
 /**
@@ -39,6 +41,8 @@ public class ValleyCert {
     // Certificate state
     private CertificateData currentCertificate;
     private boolean initialized = false;
+    private boolean enabled = false;
+    private boolean warnedDisabled = false;
 
     /**
      * Create a new ValleyCert instance.
@@ -62,6 +66,17 @@ public class ValleyCert {
      * @return true if initialization succeeded
      */
     public boolean initialize(String pluginId, String[] capabilities, int requestedLifetimeDays) {
+        // Hard dependency: ValleyAuth must be present
+        if (Bukkit.getPluginManager().getPlugin("ValleyAuth") == null) {
+            System.err.println("[ValleyCert] FATAL: ValleyAuth plugin not found. ValleyCert cannot operate without ValleyAuth Core.");
+            System.err.println("[ValleyCert] ValleyCert is now disabled. All certificate operations will fail.");
+            enabled = false;
+            return false;
+        }
+
+        System.out.println("[ValleyCert] ValleyAuth detected. Certificate operations enabled.");
+        enabled = true;
+
         System.out.println("[ValleyCert] Initializing for plugin: " + pluginId);
 
         // Try to load existing certificate
@@ -111,6 +126,11 @@ public class ValleyCert {
      * Validate that the current certificate has the required capability.
      */
     public boolean validateCapability(String capability) {
+        if (!enabled) {
+            warnFirstDisabled("validateCapability");
+            return false;
+        }
+
         if (currentCertificate == null) {
             System.err.println("[ValleyCert] No certificate loaded.");
             return false;
@@ -123,6 +143,11 @@ public class ValleyCert {
      * Get the current certificate data.
      */
     public CertificateData getCertificate() {
+        if (!enabled) {
+            warnFirstDisabled("getCertificate");
+            return null;
+        }
+
         return currentCertificate;
     }
 
@@ -130,6 +155,11 @@ public class ValleyCert {
      * Check if ValleyCert is initialized with a valid certificate.
      */
     public boolean isInitialized() {
+        if (!enabled) {
+            warnFirstDisabled("isInitialized");
+            return false;
+        }
+
         return initialized && currentCertificate != null && validator.isValid(currentCertificate);
     }
 
@@ -152,6 +182,18 @@ public class ValleyCert {
      * Get the certificate storage path.
      */
     public Path getCertificatePath(String pluginId) {
+        if (!enabled) {
+            warnFirstDisabled("getCertificatePath");
+            return null;
+        }
+
         return storage.getCertificatePath(pluginId);
+    }
+
+    private void warnFirstDisabled(String methodName) {
+        if (!warnedDisabled) {
+            System.err.println("[ValleyCert] WARNING: " + methodName + "() called but ValleyCert is disabled (ValleyAuth not present).");
+            warnedDisabled = true;
+        }
     }
 }
