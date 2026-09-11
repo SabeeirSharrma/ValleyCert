@@ -39,6 +39,8 @@ Your Plugin  →  ValleyCert  →  ValleyAuth Core  →  ValleyCertAPI (CA)
 5. ValleyCert validates the received certificate (ECDSA signature, expiry, issuer, revocation status), then stores it
 6. Your plugin calls `validateCapability("VLINK")` to confirm the certificate grants the needed permission
 
+Cert API URL is configurable in ValleyAuth config. By default it contacts the public API `<https://cert.valleyrealm.qd.je>`. **It is recommended that you host your own certificate API, see: <https://github.com/SabeeirSharrma/ValleyCertAPI>**
+
 **Offline mode:** If no API URL is configured, ValleyCert falls back to mock certificates for local development.
 
 **Revocation:** Certificates carry an encrypted revocation timestamp. Since the client can't decrypt it, any non-null revocation field means the certificate is invalid. Revocation is checked passively on every validation.
