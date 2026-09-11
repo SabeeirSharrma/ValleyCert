@@ -237,7 +237,7 @@ ValleyCert has no config file. All behavior is controlled through the Java API.
 | `requestedLifetimeDays` | `int` | 90 | Certificate lifetime in days (max 120) |
 | `apiUrl` | `String` | `null` | ValleyAuth Core endpoint URL. Omit for mock mode |
 
-The API URL is configured in the ValleyAuth plugin's config. By default it contacts the public API at `https://cert.valleyrealm.qd.je`. It is recommended that you host your own certificate API. See the [ValleyCertAPI repository](https://github.com/SabeeirSharrma/ValleyCertAPI) for details.
+The API URL is configured in the ValleyAuth plugin's config. By default it contacts the public API at `https://cert.strawberry.dpdns.org`. It is recommended that you host your own certificate API. See the [ValleyCertAPI repository](https://github.com/SabeeirSharrma/ValleyCertAPI) for details.
 
 ## Offline Mode
 
