@@ -1,6 +1,6 @@
 # ValleyCert
 
-Client certificate utility for ValleyAuth. ValleyCert is **not** a certificate authority. It requests, validates, stores, and renews certificates issued by ValleyAuth Core.
+Client certificate utility for ValleyAuth. ValleyCert is **not** a certificate authority. It requests, validates, stores, and renews certificates issued by ValleyAuth Core. **ValleyCert only issues certificates of ValleyAuth format and NOT ANY SSL/other CERTIFICATES**.
 
 ## What It Does
 
@@ -18,11 +18,11 @@ Client certificate utility for ValleyAuth. ValleyCert is **not** a certificate a
 
 ## Installation
 
-1. Download the latest `ValleyCert-1.0.0-SNAPSHOT.jar` from releases
+1. Download the latest `ValleyCert-1.0.0-SNAPSHOT.jar` from releases or modrinth
 2. Drop it into your server's `plugins/` folder
 3. Restart the server
 
-ValleyCert is a library plugin. Other ValleyRealm plugins depend on it, but you won't interact with it directly.
+ValleyCert is a library plugin. Other ValleyRealm plugins and ValleyAuth addons depend on it, but you won't interact with it directly.
 
 ## How It Works
 
@@ -59,8 +59,8 @@ ValleyCert has no config file. Behavior is controlled through the API:
 ## Building from Source
 
 ```bash
-git clone https://github.com/your-org/ValleyRealm.git
-cd ValleyRealm/ValleyCert
+git clone https://github.com/SabeeirSharrma/ValleyCert.git
+cd ValleyCert
 ./gradlew build
 ```
 
