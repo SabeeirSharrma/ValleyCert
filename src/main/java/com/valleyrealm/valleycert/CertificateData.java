@@ -1,5 +1,7 @@
 package com.valleyrealm.valleycert;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,9 +29,9 @@ public class CertificateData {
                           String encryptedRevocationTimestamp) {
         this.pluginId = pluginId;
         this.certificateId = certificateId;
-        this.capabilities = capabilities;
-        this.issuanceDate = issuanceDate;
-        this.expirationDate = expirationDate;
+        this.capabilities = capabilities != null ? List.copyOf(capabilities) : List.of();
+        this.issuanceDate = issuanceDate != null ? new Date(issuanceDate.getTime()) : new Date();
+        this.expirationDate = expirationDate != null ? new Date(expirationDate.getTime()) : new Date();
         this.issuer = issuer;
         this.signature = signature;
         this.publicKey = publicKey;
@@ -62,12 +64,12 @@ public class CertificateData {
         return daysUntilExpiry <= 7;
     }
 
-    // Getters
+    // Getters — defensive copies for mutable fields
     public String getPluginId() { return pluginId; }
     public String getCertificateId() { return certificateId; }
     public List<String> getCapabilities() { return capabilities; }
-    public Date getIssuanceDate() { return issuanceDate; }
-    public Date getExpirationDate() { return expirationDate; }
+    public Date getIssuanceDate() { return new Date(issuanceDate.getTime()); }
+    public Date getExpirationDate() { return new Date(expirationDate.getTime()); }
     public String getIssuer() { return issuer; }
     public String getSignature() { return signature; }
     public String getPublicKey() { return publicKey; }

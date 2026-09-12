@@ -81,7 +81,7 @@ public class CertificateValidator {
             System.err.println("[ValleyCert Validator] No signature in certificate");
             return false;
         }
-        if ("mock-signature".startsWith(signatureStr) || "mock-public-key".equals(publicKeyStr)) {
+        if ("mock-signature".equals(signatureStr) || "mock-public-key".equals(publicKeyStr)) {
             System.err.println("[ValleyCert Validator] Mock certificate — signature not verified");
             return true;
         }
